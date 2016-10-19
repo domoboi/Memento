@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Memento</string>
+    <string name="search_title">Search</string>
+    <string name="category_books">Books</string>
+    <string name="category_books_edu">Books(edu)</string>
+    <string name="category_movies">Movies</string>
+    <string name="category_shows">Shows</string>
+    <string name="category_games">Games</string>
+
+    <string-array name="categories_array">
+        <item>@string/category_books</item>
+        <item>@string/category_books_edu</item>
+        <item>@string/category_movies</item>
+        <item>@string/category_shows</item>
+        <item>@string/category_games</item>
+    </string-array>
+
+</resources>
