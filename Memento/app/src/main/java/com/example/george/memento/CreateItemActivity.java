@@ -94,8 +94,6 @@ public class CreateItemActivity extends AppCompatActivity {
             Toast.makeText(CreateItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
         } else if (itemCategory.equals("")) {
             Toast.makeText(CreateItemActivity.this, "Category is required field", Toast.LENGTH_SHORT).show();
-        } else if (itemDescription.equals("")) {
-            Toast.makeText(CreateItemActivity.this, "Description is required field", Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":

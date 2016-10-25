@@ -25,46 +25,22 @@ public class GamesFragment extends Fragment {
     private static final String CATEGORY = "Games";
 
     private static ArrayList<Item> items;
-
-    private RecyclerView recyclerView;
-
     private static RecyclerView.Adapter adapter;
-
+    private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
     public GamesFragment() {
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_list, container, false);
-        items = new ArrayList<Item>();
-        items.add(new Item("Deadpool", "2016", CATEGORY, 1f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 2f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 3f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 4f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 5f, "Great!"));
-
-        readList(getContext());
-
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.list);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new ItemAdapter(getActivity(), items);
-        recyclerView.setAdapter(adapter);
-        return rootView;
-    }
-
     public static void addItem(int position, Item item) {
         items.add(position, item);
+        adapter.notifyItemInserted(position);
         adapter.notifyDataSetChanged();
     }
 
     public static void removeItem(int position) {
         items.remove(position);
+        adapter.notifyItemRemoved(position);
         adapter.notifyDataSetChanged();
     }
 
@@ -94,6 +70,29 @@ public class GamesFragment extends Fragment {
         } catch(Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.item_list, container, false);
+        items = new ArrayList<Item>();
+        items.add(new Item("Deadpool", "2016", CATEGORY, 1f, "Great!"));
+        items.add(new Item("Deadpool", "2016", CATEGORY, 2f, "Great!"));
+        items.add(new Item("Deadpool", "2016", CATEGORY, 3f, "Great!"));
+        items.add(new Item("Deadpool", "2016", CATEGORY, 4f, "Great!"));
+        items.add(new Item("Deadpool", "2016", CATEGORY, 5f, "Great!"));
+
+        readList(getContext());
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.list);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new ItemAdapter(getActivity(), items);
+        recyclerView.setAdapter(adapter);
+        return rootView;
     }
 
     @Override

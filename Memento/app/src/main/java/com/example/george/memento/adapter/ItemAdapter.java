@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.george.memento.EditItemActivity;
 import com.example.george.memento.Item;
+import com.example.george.memento.MainActivity;
 import com.example.george.memento.R;
 import com.example.george.memento.fragment.BooksEduFragment;
 import com.example.george.memento.fragment.BooksFragment;
@@ -59,12 +60,30 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 items.remove(holder.getAdapterPosition());
+                                int tabPosition = MainActivity.tabLayout.getSelectedTabPosition();
+                                switch (tabPosition) {
+                                    case 0:
+                                        BooksFragment.removeItem(holder.getAdapterPosition());
+                                        BooksFragment.writeList(context);
+                                        break;
+                                    case 1:
+                                        BooksEduFragment.removeItem(holder.getAdapterPosition());
+                                        BooksEduFragment.writeList(context);
+                                        break;
+                                    case 2:
+                                        MoviesFragment.removeItem(holder.getAdapterPosition());
+                                        MoviesFragment.writeList(context);
+                                        break;
+                                    case 3:
+                                        ShowsFragment.removeItem(holder.getAdapterPosition());
+                                        ShowsFragment.writeList(context);
+                                        break;
+                                    case 4:
+                                        GamesFragment.removeItem(holder.getAdapterPosition());
+                                        GamesFragment.writeList(context);
+                                        break;
+                                }
                                 notifyDataSetChanged();
-                                BooksFragment.writeList(context);
-                                BooksEduFragment.writeList(context);
-                                MoviesFragment.writeList(context);
-                                ShowsFragment.writeList(context);
-                                GamesFragment.writeList(context);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

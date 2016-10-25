@@ -23,26 +23,22 @@ import java.util.Calendar;
 
 public class EditItemActivity extends AppCompatActivity {
 
-    private Spinner categorySpinner;
-    private Spinner yearSpinner;
-
-    private EditText title;
-    private EditText description;
-    private RatingBar rating;
-
-    private String itemTitle;
-    private String itemCategory;
-    private String itemYear;
-    private float itemRating;
-    private String itemDescription;
-
-    private int position;
-
     private final static int BOOKS_CATEGORY = 0;
     private final static int BOOKS_EDU_CATEGORY = 1;
     private final static int MOVIES_CATEGORY = 2;
     private final static int SHOWS_CATEGORY = 3;
     private final static int GAMES_CATEGORY = 4;
+    private Spinner categorySpinner;
+    private Spinner yearSpinner;
+    private EditText title;
+    private EditText description;
+    private RatingBar rating;
+    private String itemTitle;
+    private String itemCategory;
+    private String itemYear;
+    private float itemRating;
+    private String itemDescription;
+    private int position;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,32 +94,22 @@ public class EditItemActivity extends AppCompatActivity {
             case "Books":
                 item = BooksFragment.getItem(position);
                 getDataFromItem(item, BOOKS_CATEGORY);
-                BooksFragment.removeItem(position);
-                BooksFragment.writeList(getApplicationContext());
                 break;
             case "Books(edu)":
                 item = BooksEduFragment.getItem(position);
                 getDataFromItem(item, BOOKS_EDU_CATEGORY);
-                BooksEduFragment.removeItem(position);
-                BooksEduFragment.writeList(getApplicationContext());
                 break;
             case "Movies":
                 item = MoviesFragment.getItem(position);
                 getDataFromItem(item, MOVIES_CATEGORY);
-                MoviesFragment.removeItem(position);
-                MoviesFragment.writeList(getApplicationContext());
                 break;
             case "Shows":
                 item = ShowsFragment.getItem(position);
                 getDataFromItem(item, SHOWS_CATEGORY);
-                ShowsFragment.removeItem(position);
-                ShowsFragment.writeList(getApplicationContext());
                 break;
             case "Games":
                 item = GamesFragment.getItem(position);
                 getDataFromItem(item, GAMES_CATEGORY);
-                GamesFragment.removeItem(position);
-                GamesFragment.writeList(getApplicationContext());
                 break;
         }
     }
@@ -162,13 +148,33 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void submit() {
+        switch (itemCategory) {
+            case "Books":
+                BooksFragment.removeItem(position);
+                BooksFragment.writeList(getApplicationContext());
+                break;
+            case "Books(edu)":
+                BooksEduFragment.removeItem(position);
+                BooksEduFragment.writeList(getApplicationContext());
+                break;
+            case "Movies":
+                MoviesFragment.removeItem(position);
+                MoviesFragment.writeList(getApplicationContext());
+                break;
+            case "Shows":
+                ShowsFragment.removeItem(position);
+                ShowsFragment.writeList(getApplicationContext());
+                break;
+            case "Games":
+                GamesFragment.removeItem(position);
+                GamesFragment.writeList(getApplicationContext());
+                break;
+        }
         Item item = createItem();
         if (itemTitle.equals("")) {
             Toast.makeText(EditItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
         } else if (itemCategory.equals("")) {
             Toast.makeText(EditItemActivity.this, "Category is required field", Toast.LENGTH_SHORT).show();
-        } else if (itemDescription.equals("")) {
-            Toast.makeText(EditItemActivity.this, "Description is required field", Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":

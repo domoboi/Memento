@@ -14,7 +14,7 @@ import com.example.george.memento.adapter.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    public static TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         initTolbar();
         initTabs();
-
-        viewPager.setCurrentItem(4);
-        viewPager.setCurrentItem(3);
-        viewPager.setCurrentItem(2);
-        viewPager.setCurrentItem(1);
-        viewPager.setCurrentItem(0);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add);
         final Intent intent = new Intent(this, CreateItemActivity.class);
@@ -53,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initTabs() {
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(4);
         CategoryAdapter adapter = new CategoryAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 }
