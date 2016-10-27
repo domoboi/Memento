@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.george.memento.EditItemActivity;
 import com.example.george.memento.Item;
-import com.example.george.memento.MainActivity;
 import com.example.george.memento.R;
 import com.example.george.memento.fragment.BooksEduFragment;
 import com.example.george.memento.fragment.BooksFragment;
@@ -59,26 +58,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder>{
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                items.remove(holder.getAdapterPosition());
-                                int tabPosition = MainActivity.tabLayout.getSelectedTabPosition();
-                                switch (tabPosition) {
-                                    case 0:
+                                String category = items.get(holder.getAdapterPosition()).getCategory();
+                                switch (category) {
+                                    case "Books":
                                         BooksFragment.removeItem(holder.getAdapterPosition());
                                         BooksFragment.writeList(context);
                                         break;
-                                    case 1:
+                                    case "Books(edu)":
                                         BooksEduFragment.removeItem(holder.getAdapterPosition());
                                         BooksEduFragment.writeList(context);
                                         break;
-                                    case 2:
+                                    case "Movies":
                                         MoviesFragment.removeItem(holder.getAdapterPosition());
                                         MoviesFragment.writeList(context);
                                         break;
-                                    case 3:
+                                    case "Shows":
                                         ShowsFragment.removeItem(holder.getAdapterPosition());
                                         ShowsFragment.writeList(context);
                                         break;
-                                    case 4:
+                                    case "Games":
                                         GamesFragment.removeItem(holder.getAdapterPosition());
                                         GamesFragment.writeList(context);
                                         break;

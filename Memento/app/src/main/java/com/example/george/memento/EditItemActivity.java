@@ -124,7 +124,7 @@ public class EditItemActivity extends AppCompatActivity {
         this.itemRating = item.getRating();
         categorySpinner.setSelection(category);
         itemYear = item.getYear();
-        if (this.itemYear != null &&  !("".equals(this.itemYear))) {
+        if (this.itemYear != null && !("".equals(this.itemYear))) {
             year = Integer.valueOf(itemYear);
             yearIndex = thisYear - year;
             yearSpinner.setSelection(yearIndex);

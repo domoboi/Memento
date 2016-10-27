@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class BooksEduFragment extends Fragment {
 
-    private static final String CATEGORY = "BooksEdu";
+    private static final String CATEGORY = "Books(edu)";
 
     private static ArrayList<Item> items;
     private static RecyclerView.Adapter adapter;
@@ -30,46 +30,6 @@ public class BooksEduFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public BooksEduFragment() {
-    }
-
-    public static void addItem(int position, Item item) {
-        items.add(position, item);
-        adapter.notifyItemInserted(position);
-        adapter.notifyDataSetChanged();
-    }
-
-    public static void removeItem(int position) {
-        items.remove(position);
-        adapter.notifyItemRemoved(position);
-        adapter.notifyDataSetChanged();
-    }
-
-    public static Item getItem(int position) {
-        return items.get(position);
-    }
-
-    public static void writeList(Context c){
-        try{
-            FileOutputStream fos = c.openFileOutput(CATEGORY + ".dat", Context.MODE_PRIVATE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(items);
-            oos.close();
-            fos.close();
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public static void readList(Context c) {
-        try {
-            FileInputStream fis = c.openFileInput(CATEGORY + ".dat");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            items = (ArrayList<Item>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
     }
 
     @Nullable
@@ -92,7 +52,47 @@ public class BooksEduFragment extends Fragment {
 
         adapter = new ItemAdapter(getActivity(), items);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         return rootView;
+    }
+
+    public static void addItem(int position, Item item) {
+        items.add(position, item);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static void removeItem(int position) {
+        items.remove(position);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static Item getItem(int position) {
+        return items.get(position);
+    }
+
+    public static void writeList(Context c) {
+        try {
+            FileOutputStream fos = c.openFileOutput(CATEGORY + ".dat", Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(items);
+            oos.close();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void readList(Context c) {
+        try {
+            FileInputStream fis = c.openFileInput(CATEGORY + ".dat");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            items = (ArrayList<Item>) ois.readObject();
+            adapter.notifyDataSetChanged();
+            ois.close();
+            fis.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -105,5 +105,9 @@ public class BooksEduFragment extends Fragment {
     public void onResume() {
         super.onResume();
         readList(getContext());
+        adapter = null;
+        adapter = new ItemAdapter(getActivity(), items);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

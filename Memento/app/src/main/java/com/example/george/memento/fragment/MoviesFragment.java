@@ -32,46 +32,6 @@ public class MoviesFragment extends Fragment {
     public MoviesFragment() {
     }
 
-    public static void addItem(int position, Item item) {
-        items.add(position, item);
-        adapter.notifyItemInserted(position);
-        adapter.notifyDataSetChanged();
-    }
-
-    public static void removeItem(int position) {
-        items.remove(position);
-        adapter.notifyItemRemoved(position);
-        adapter.notifyDataSetChanged();
-    }
-
-    public static Item getItem(int position) {
-        return items.get(position);
-    }
-
-    public static void writeList(Context c){
-        try{
-            FileOutputStream fos = c.openFileOutput(CATEGORY + ".dat", Context.MODE_PRIVATE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(items);
-            oos.close();
-            fos.close();
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public static void readList(Context c) {
-        try {
-            FileInputStream fis = c.openFileInput(CATEGORY + ".dat");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            items = (ArrayList<Item>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,7 +52,48 @@ public class MoviesFragment extends Fragment {
 
         adapter = new ItemAdapter(getActivity(), items);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         return rootView;
+    }
+
+    public static void addItem(int position, Item item) {
+        items.add(position, item);
+        adapter.notifyItemInserted(position);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static void removeItem(int position) {
+        items.remove(position);
+        adapter.notifyItemRemoved(position);
+        adapter.notifyDataSetChanged();
+    }
+
+    public static Item getItem(int position) {
+        return items.get(position);
+    }
+
+    public static void writeList(Context c) {
+        try {
+            FileOutputStream fos = c.openFileOutput(CATEGORY + ".dat", Context.MODE_PRIVATE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(items);
+            oos.close();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void readList(Context c) {
+        try {
+            FileInputStream fis = c.openFileInput(CATEGORY + ".dat");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            items = (ArrayList<Item>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -105,5 +106,10 @@ public class MoviesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         readList(getContext());
+        adapter.notifyDataSetChanged();
+        adapter = null;
+        adapter = new ItemAdapter(getActivity(), items);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
