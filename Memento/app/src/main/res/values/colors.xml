@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="category_books">#4A312A</color>
+    <color name="category_books_edu">#FD8E09</color>
+    <color name="category_movies">#379237</color>
+    <color name="category_shows">#8800A0</color>
+    <color name="category_games">#16AFCA</color>
 </resources>

@@ -17,9 +17,6 @@ import com.example.george.memento.fragment.GamesFragment;
 import com.example.george.memento.fragment.MoviesFragment;
 import com.example.george.memento.fragment.ShowsFragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 
 public class EditItemActivity extends AppCompatActivity {
 
@@ -29,16 +26,19 @@ public class EditItemActivity extends AppCompatActivity {
     private final static int SHOWS_CATEGORY = 3;
     private final static int GAMES_CATEGORY = 4;
     private Spinner categorySpinner;
-    private Spinner yearSpinner;
+    private EditText year;
+    private EditText genre;
     private EditText title;
     private EditText description;
     private RatingBar rating;
     private String itemTitle;
     private String itemCategory;
     private String itemYear;
+    private String itemGenre;
     private float itemRating;
     private String itemDescription;
-    private int position;
+    private int colorResource;
+    private Item item;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,18 +46,18 @@ public class EditItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_item);
 
         initCategorySpinner();
-        initYearSpinner();
 
-        title = (EditText) findViewById(R.id.title);
-        description = (EditText) findViewById(R.id.description);
-        rating = (RatingBar) findViewById(R.id.rating_bar);
+        this.title = (EditText) findViewById(R.id.title);
+        this.year = (EditText) findViewById(R.id.year);
+        this.genre = (EditText) findViewById(R.id.genre);
+        this.description = (EditText) findViewById(R.id.description);
+        this.rating = (RatingBar) findViewById(R.id.rating_bar);
 
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            this.itemCategory = extras.getString("category");
-            this.position = extras.getInt("position");
-            getItem();
+            this.item = (Item) extras.getSerializable("item");
+            getDataFromItem(item);
         }
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,64 +75,34 @@ public class EditItemActivity extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
     }
 
-    private void initYearSpinner() {
-        ArrayList<String> years = new ArrayList<String>();
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = thisYear; i >= 1888; i--) {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        yearSpinner = (Spinner) findViewById(R.id.year_spinner);
-        yearSpinner.setAdapter(adapter);
-    }
-
-    private void getItem() {
-        Item item;
-        switch (itemCategory) {
-            case "Books":
-                item = BooksFragment.getItem(position);
-                getDataFromItem(item, BOOKS_CATEGORY);
-                break;
-            case "Books(edu)":
-                item = BooksEduFragment.getItem(position);
-                getDataFromItem(item, BOOKS_EDU_CATEGORY);
-                break;
-            case "Movies":
-                item = MoviesFragment.getItem(position);
-                getDataFromItem(item, MOVIES_CATEGORY);
-                break;
-            case "Shows":
-                item = ShowsFragment.getItem(position);
-                getDataFromItem(item, SHOWS_CATEGORY);
-                break;
-            case "Games":
-                item = GamesFragment.getItem(position);
-                getDataFromItem(item, GAMES_CATEGORY);
-                break;
-        }
-    }
-
-    private void getDataFromItem(Item item, int category) {
-        int year;
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        int yearIndex;
-
+    private void getDataFromItem(Item item) {
         this.itemTitle = item.getTitle();
+        this.itemYear = item.getYear();
+        this.itemGenre = item.getGenre();
+        this.itemCategory = item.getCategory();
         this.itemDescription = item.getDescription();
         this.itemRating = item.getRating();
-        categorySpinner.setSelection(category);
-        itemYear = item.getYear();
-        if (this.itemYear != null && !("".equals(this.itemYear))) {
-            year = Integer.valueOf(itemYear);
-            yearIndex = thisYear - year;
-            yearSpinner.setSelection(yearIndex);
-        } else {
-            yearSpinner.setSelection(0);
+        switch (itemCategory) {
+            case "Books":
+                categorySpinner.setSelection(BOOKS_CATEGORY);
+                break;
+            case "Books(edu)":
+                categorySpinner.setSelection(BOOKS_EDU_CATEGORY);
+                break;
+            case "Movies":
+                categorySpinner.setSelection(MOVIES_CATEGORY);
+                break;
+            case "Shows":
+                categorySpinner.setSelection(SHOWS_CATEGORY);
+                break;
+            case "Games":
+                categorySpinner.setSelection(GAMES_CATEGORY);
+                break;
         }
 
         this.title.setText(itemTitle);
+        this.year.setText(itemYear);
+        this.genre.setText(itemGenre);
         this.description.setText(itemDescription);
         this.rating.setRating(itemRating);
     }
@@ -140,62 +110,79 @@ public class EditItemActivity extends AppCompatActivity {
     private Item createItem() {
         this.itemTitle = title.getText().toString();
         this.itemCategory = categorySpinner.getSelectedItem().toString();
-        this.itemYear = yearSpinner.getSelectedItem().toString();
+        this.itemYear = year.getText().toString();
+        this.itemGenre = genre.getText().toString();
         this.itemRating = rating.getRating();
         this.itemDescription = description.getText().toString();
 
-        return new Item(itemTitle, itemYear, itemCategory, itemRating, itemDescription);
+        switch (itemCategory) {
+            case "Books":
+                colorResource = R.color.category_books;
+                break;
+            case "Books(edu)":
+                colorResource = R.color.category_books_edu;
+                break;
+            case "Movies":
+                colorResource = R.color.category_movies;
+                break;
+            case "Shows":
+                colorResource = R.color.category_shows;
+                break;
+            case "Games":
+                colorResource = R.color.category_games;
+                break;
+        }
+
+        return new Item(itemTitle, itemYear, itemGenre, itemCategory, itemRating, itemDescription, colorResource);
     }
 
     private void submit() {
         switch (itemCategory) {
             case "Books":
-                BooksFragment.removeItem(position);
-                BooksFragment.writeList(getApplicationContext());
+                BooksFragment.removeItem(item);
+                BooksFragment.writeList(EditItemActivity.this);
                 break;
             case "Books(edu)":
-                BooksEduFragment.removeItem(position);
-                BooksEduFragment.writeList(getApplicationContext());
+                BooksEduFragment.removeItem(item);
+                BooksEduFragment.writeList(EditItemActivity.this);
                 break;
             case "Movies":
-                MoviesFragment.removeItem(position);
-                MoviesFragment.writeList(getApplicationContext());
+                MoviesFragment.removeItem(item);
+                MoviesFragment.writeList(EditItemActivity.this);
                 break;
             case "Shows":
-                ShowsFragment.removeItem(position);
-                ShowsFragment.writeList(getApplicationContext());
+                ShowsFragment.removeItem(item);
+                ShowsFragment.writeList(EditItemActivity.this);
                 break;
             case "Games":
-                GamesFragment.removeItem(position);
-                GamesFragment.writeList(getApplicationContext());
+                GamesFragment.removeItem(item);
+                GamesFragment.writeList(EditItemActivity.this);
                 break;
         }
-        Item item = createItem();
+        item = createItem();
         if (itemTitle.equals("")) {
             Toast.makeText(EditItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
-        } else if (itemCategory.equals("")) {
-            Toast.makeText(EditItemActivity.this, "Category is required field", Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":
-                    BooksFragment.addItem(position, item);
-                    BooksFragment.writeList(getApplicationContext());
+                    BooksFragment.addItem(0, item);
+                    BooksFragment.writeList(EditItemActivity.this);
                     break;
                 case "Books(edu)":
-                    BooksEduFragment.addItem(position, item);
-                    BooksEduFragment.writeList(getApplicationContext());
+                    BooksEduFragment.addItem(0, item);
+                    BooksEduFragment.writeList(EditItemActivity.this);
                     break;
                 case "Movies":
-                    MoviesFragment.addItem(position, item);
-                    MoviesFragment.writeList(getApplicationContext());
+                    MoviesFragment.addItem(0, item);
+                    MoviesFragment.writeList(EditItemActivity.this);
                     break;
                 case "Shows":
-                    ShowsFragment.addItem(position, item);
-                    ShowsFragment.writeList(getApplicationContext());
+                    ShowsFragment.addItem(0, item);
+                    ShowsFragment.writeList(EditItemActivity.this);
                     break;
                 case "Games":
-                    GamesFragment.addItem(position, item);
-                    GamesFragment.writeList(getApplicationContext());
+                    GamesFragment.addItem(0, item);
+                    GamesFragment.writeList(EditItemActivity.this);
                     break;
             }
             finish();

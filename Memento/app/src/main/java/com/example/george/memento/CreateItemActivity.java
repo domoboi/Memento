@@ -17,24 +17,25 @@ import com.example.george.memento.fragment.GamesFragment;
 import com.example.george.memento.fragment.MoviesFragment;
 import com.example.george.memento.fragment.ShowsFragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 public class CreateItemActivity extends AppCompatActivity {
 
     private Spinner categorySpinner;
 
-    private Spinner yearSpinner;
+//    private Spinner yearSpinner;
 
     private EditText title;
+    private EditText year;
+    private EditText genre;
     private EditText description;
     private RatingBar rating;
 
     private String itemTitle;
     private String itemCategory;
     private String itemYear;
+    private String itemGenre;
     private float itemRating;
     private String itemDescription;
+    private int colorResource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +43,12 @@ public class CreateItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_item);
 
         initCategorySpinner();
-        initYearSpinner();
+
+        this.title = (EditText) findViewById(R.id.title);
+        this.year = (EditText) findViewById(R.id.year);
+        this.genre = (EditText) findViewById(R.id.genre);
+        this.description = (EditText) findViewById(R.id.description);
+        this.rating = (RatingBar) findViewById(R.id.rating_bar);
 
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -61,60 +67,60 @@ public class CreateItemActivity extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
     }
 
-    private void initYearSpinner() {
-        ArrayList<String> years = new ArrayList<String>();
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = thisYear; i >= 1888; i--) {
-            years.add(Integer.toString(i));
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        yearSpinner = (Spinner) findViewById(R.id.year_spinner);
-        yearSpinner.setAdapter(adapter);
-    }
-
     private Item createItem() {
-        this.title = (EditText) findViewById(R.id.title);
-        this.description = (EditText) findViewById(R.id.description);
-        this.rating = (RatingBar) findViewById(R.id.rating_bar);
-
         this.itemTitle = title.getText().toString();
         this.itemCategory = categorySpinner.getSelectedItem().toString();
-        this.itemYear = yearSpinner.getSelectedItem().toString();
+        this.itemYear = year.getText().toString();
+        this.itemGenre = genre.getText().toString();
         this.itemRating = rating.getRating();
         this.itemDescription = description.getText().toString();
 
-        return new Item(itemTitle, itemYear, itemCategory, itemRating, itemDescription);
+        switch (itemCategory) {
+            case "Books":
+                colorResource = R.color.category_books;
+                break;
+            case "Books(edu)":
+                colorResource = R.color.category_books_edu;
+                break;
+            case "Movies":
+                colorResource = R.color.category_movies;
+                break;
+            case "Shows":
+                colorResource = R.color.category_shows;
+                break;
+            case "Games":
+                colorResource = R.color.category_games;
+                break;
+        }
+
+        return new Item(itemTitle, itemYear, itemGenre, itemCategory, itemRating, itemDescription, colorResource);
     }
 
     private void submit() {
         Item item = createItem();
         if (itemTitle.equals("")) {
             Toast.makeText(CreateItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
-        } else if (itemCategory.equals("")) {
-            Toast.makeText(CreateItemActivity.this, "Category is required field", Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":
                     BooksFragment.addItem(0, item);
-                    BooksFragment.writeList(getApplicationContext());
+                    BooksFragment.writeList(CreateItemActivity.this);
                     break;
                 case "Books(edu)":
                     BooksEduFragment.addItem(0, item);
-                    BooksEduFragment.writeList(getApplicationContext());
+                    BooksEduFragment.writeList(CreateItemActivity.this);
                     break;
                 case "Movies":
                     MoviesFragment.addItem(0, item);
-                    MoviesFragment.writeList(getApplicationContext());
+                    MoviesFragment.writeList(CreateItemActivity.this);
                     break;
                 case "Shows":
                     ShowsFragment.addItem(0, item);
-                    ShowsFragment.writeList(getApplicationContext());
+                    ShowsFragment.writeList(CreateItemActivity.this);
                     break;
                 case "Games":
                     GamesFragment.addItem(0, item);
-                    GamesFragment.writeList(getApplicationContext());
+                    GamesFragment.writeList(CreateItemActivity.this);
                     break;
             }
             finish();

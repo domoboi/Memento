@@ -16,16 +16,9 @@
         <EditText
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:hint="Title" />
-
-        <Spinner
-            android:id="@+id/year_spinner"
-            android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Year"
+            android:hint="Title"
             android:layout_marginRight="8dp"/>
 
         <Spinner
@@ -33,6 +26,30 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Year"
+            android:layout_marginRight="8dp"/>
+
+        <EditText
+            android:id="@+id/genre"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Genre" />
 
     </LinearLayout>
 

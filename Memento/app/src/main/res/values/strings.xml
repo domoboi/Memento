@@ -6,6 +6,8 @@
     <string name="category_movies">Movies</string>
     <string name="category_shows">Shows</string>
     <string name="category_games">Games</string>
+    <string name="search_label">Search</string>
+    <string name="search_hint">Search title, genre or year</string>
 
     <string-array name="categories_array">
         <item>@string/category_books</item>

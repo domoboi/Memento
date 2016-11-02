@@ -24,6 +24,8 @@ public class BooksEduFragment extends Fragment {
 
     private static final String CATEGORY = "Books(edu)";
 
+    private static final int colorResource = R.color.category_books_edu;
+
     private static ArrayList<Item> items;
     private static RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
@@ -37,11 +39,11 @@ public class BooksEduFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_list, container, false);
         items = new ArrayList<Item>();
-        items.add(new Item("Deadpool", "2016", CATEGORY, 1f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 2f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 3f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 4f, "Great!"));
-        items.add(new Item("Deadpool", "2016", CATEGORY, 5f, "Great!"));
+        items.add(new Item("Deadpool", "2016", "Action", CATEGORY, 1f, "Great!", colorResource));
+        items.add(new Item("Deadpool", "2016", "Action", CATEGORY, 2f, "Great!", colorResource));
+        items.add(new Item("Deadpool", "2016", "Action", CATEGORY, 3f, "Great!", colorResource));
+        items.add(new Item("Deadpool", "2016", "Action", CATEGORY, 4f, "Great!", colorResource));
+        items.add(new Item("Deadpool", "2016", "Action", CATEGORY, 5f, "Great!", colorResource));
 
         readList(getContext());
 
@@ -61,13 +63,17 @@ public class BooksEduFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    public static void removeItem(int position) {
-        items.remove(position);
+    public static void removeItem(Item item) {
+        items.remove(item);
         adapter.notifyDataSetChanged();
     }
 
     public static Item getItem(int position) {
         return items.get(position);
+    }
+
+    public static int getSize() {
+        return items.size();
     }
 
     public static void writeList(Context c) {
@@ -87,9 +93,9 @@ public class BooksEduFragment extends Fragment {
             FileInputStream fis = c.openFileInput(CATEGORY + ".dat");
             ObjectInputStream ois = new ObjectInputStream(fis);
             items = (ArrayList<Item>) ois.readObject();
-            adapter.notifyDataSetChanged();
             ois.close();
             fis.close();
+            adapter.notifyDataSetChanged();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

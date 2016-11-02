@@ -1,11 +1,15 @@
 package com.example.george.memento;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,13 +39,20 @@ public class MainActivity extends AppCompatActivity {
     private void initTolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
+        toolbar.inflateMenu(R.menu.menu_toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btn_search:
+                        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+                        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                        break;
+                }
                 return true;
             }
         });
-        toolbar.inflateMenu(R.menu.menu_toolbar);
     }
 
     private void initTabs() {
