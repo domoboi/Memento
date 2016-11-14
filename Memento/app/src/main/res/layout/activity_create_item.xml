@@ -16,9 +16,9 @@
         <EditText
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="@string/title_hint"
             android:layout_marginRight="8dp"/>
 
         <Spinner
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Year"
+            android:hint="@string/year_hint"
             android:layout_marginRight="8dp"/>
 
         <EditText
@@ -49,7 +49,7 @@
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Genre" />
+            android:hint="@string/genre_hint" />
 
     </LinearLayout>
 
@@ -68,12 +68,19 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your review"
+        android:hint="@string/description_hint"
         android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_marginBottom="8dp"
+        android:text="@string/indicates_required_fields"/>
 
     <Button
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK" />
+        android:text="@string/ok_button" />
 </LinearLayout>

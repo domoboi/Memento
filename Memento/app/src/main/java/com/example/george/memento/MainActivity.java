@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private void initTolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.titleColor));
         toolbar.inflateMenu(R.menu.menu_toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
         CategoryAdapter adapter = new CategoryAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 

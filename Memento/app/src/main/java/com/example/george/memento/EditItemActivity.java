@@ -15,16 +15,18 @@ import com.example.george.memento.fragment.BooksEduFragment;
 import com.example.george.memento.fragment.BooksFragment;
 import com.example.george.memento.fragment.GamesFragment;
 import com.example.george.memento.fragment.MoviesFragment;
+import com.example.george.memento.fragment.MusicFragment;
 import com.example.george.memento.fragment.ShowsFragment;
 
 
 public class EditItemActivity extends AppCompatActivity {
 
-    private final static int BOOKS_CATEGORY = 0;
-    private final static int BOOKS_EDU_CATEGORY = 1;
-    private final static int MOVIES_CATEGORY = 2;
-    private final static int SHOWS_CATEGORY = 3;
-    private final static int GAMES_CATEGORY = 4;
+    private final static int BOOKS_CATEGORY_POSITION = 0;
+    private final static int BOOKS_EDU_CATEGORY_POSITION = 1;
+    private final static int MOVIES_CATEGORY_POSITION = 2;
+    private final static int SHOWS_CATEGORY_POSITION = 3;
+    private final static int GAMES_CATEGORY_POSITION = 4;
+    private final static int MUSIC_CATEGORY_POSITION = 5;
     private Spinner categorySpinner;
     private EditText year;
     private EditText genre;
@@ -84,19 +86,22 @@ public class EditItemActivity extends AppCompatActivity {
         this.itemRating = item.getRating();
         switch (itemCategory) {
             case "Books":
-                categorySpinner.setSelection(BOOKS_CATEGORY);
+                categorySpinner.setSelection(BOOKS_CATEGORY_POSITION);
                 break;
             case "Books(edu)":
-                categorySpinner.setSelection(BOOKS_EDU_CATEGORY);
+                categorySpinner.setSelection(BOOKS_EDU_CATEGORY_POSITION);
                 break;
             case "Movies":
-                categorySpinner.setSelection(MOVIES_CATEGORY);
+                categorySpinner.setSelection(MOVIES_CATEGORY_POSITION);
                 break;
             case "Shows":
-                categorySpinner.setSelection(SHOWS_CATEGORY);
+                categorySpinner.setSelection(SHOWS_CATEGORY_POSITION);
                 break;
             case "Games":
-                categorySpinner.setSelection(GAMES_CATEGORY);
+                categorySpinner.setSelection(GAMES_CATEGORY_POSITION);
+                break;
+            case "Music":
+                categorySpinner.setSelection(MUSIC_CATEGORY_POSITION);
                 break;
         }
 
@@ -107,7 +112,7 @@ public class EditItemActivity extends AppCompatActivity {
         this.rating.setRating(itemRating);
     }
 
-    private Item createItem() {
+    private void createItem() {
         this.itemTitle = title.getText().toString();
         this.itemCategory = categorySpinner.getSelectedItem().toString();
         this.itemYear = year.getText().toString();
@@ -131,9 +136,18 @@ public class EditItemActivity extends AppCompatActivity {
             case "Games":
                 colorResource = R.color.category_games;
                 break;
+            case "Music":
+                colorResource = R.color.category_music;
+                break;
         }
 
-        return new Item(itemTitle, itemYear, itemGenre, itemCategory, itemRating, itemDescription, colorResource);
+        item.setTitle(itemTitle);
+        item.setYear(itemYear);
+        item.setGenre(itemGenre);
+        item.setCategory(itemCategory);
+        item.setRating(itemRating);
+        item.setDescription(itemDescription);
+        item.setColorResource(colorResource);
     }
 
     private void submit() {
@@ -158,10 +172,14 @@ public class EditItemActivity extends AppCompatActivity {
                 GamesFragment.removeItem(item);
                 GamesFragment.writeList(EditItemActivity.this);
                 break;
+            case "Music":
+                MusicFragment.removeItem(item);
+                MusicFragment.writeList(EditItemActivity.this);
+                break;
         }
-        item = createItem();
+        createItem();
         if (itemTitle.equals("")) {
-            Toast.makeText(EditItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditItemActivity.this, EditItemActivity.this.getResources().getString(R.string.title_required), Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":
@@ -183,6 +201,10 @@ public class EditItemActivity extends AppCompatActivity {
                 case "Games":
                     GamesFragment.addItem(0, item);
                     GamesFragment.writeList(EditItemActivity.this);
+                    break;
+                case "Music":
+                    MusicFragment.addItem(0, item);
+                    MusicFragment.writeList(EditItemActivity.this);
                     break;
             }
             finish();

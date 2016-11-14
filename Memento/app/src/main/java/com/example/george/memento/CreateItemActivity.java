@@ -15,14 +15,12 @@ import com.example.george.memento.fragment.BooksEduFragment;
 import com.example.george.memento.fragment.BooksFragment;
 import com.example.george.memento.fragment.GamesFragment;
 import com.example.george.memento.fragment.MoviesFragment;
+import com.example.george.memento.fragment.MusicFragment;
 import com.example.george.memento.fragment.ShowsFragment;
 
 public class CreateItemActivity extends AppCompatActivity {
 
     private Spinner categorySpinner;
-
-//    private Spinner yearSpinner;
-
     private EditText title;
     private EditText year;
     private EditText genre;
@@ -91,6 +89,9 @@ public class CreateItemActivity extends AppCompatActivity {
             case "Games":
                 colorResource = R.color.category_games;
                 break;
+            case "Music":
+                colorResource = R.color.category_music;
+                break;
         }
 
         return new Item(itemTitle, itemYear, itemGenre, itemCategory, itemRating, itemDescription, colorResource);
@@ -99,7 +100,7 @@ public class CreateItemActivity extends AppCompatActivity {
     private void submit() {
         Item item = createItem();
         if (itemTitle.equals("")) {
-            Toast.makeText(CreateItemActivity.this, "Title is required field", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateItemActivity.this, CreateItemActivity.this.getResources().getString(R.string.title_required), Toast.LENGTH_SHORT).show();
         } else {
             switch (itemCategory) {
                 case "Books":
@@ -121,6 +122,10 @@ public class CreateItemActivity extends AppCompatActivity {
                 case "Games":
                     GamesFragment.addItem(0, item);
                     GamesFragment.writeList(CreateItemActivity.this);
+                    break;
+                case "Music":
+                    MusicFragment.addItem(0, item);
+                    MusicFragment.writeList(CreateItemActivity.this);
                     break;
             }
             finish();

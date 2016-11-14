@@ -10,6 +10,7 @@ import com.example.george.memento.fragment.BooksEduFragment;
 import com.example.george.memento.fragment.BooksFragment;
 import com.example.george.memento.fragment.GamesFragment;
 import com.example.george.memento.fragment.MoviesFragment;
+import com.example.george.memento.fragment.MusicFragment;
 import com.example.george.memento.fragment.ShowsFragment;
 
 public class CategoryAdapter extends FragmentPagerAdapter {
@@ -31,14 +32,16 @@ public class CategoryAdapter extends FragmentPagerAdapter {
             return new MoviesFragment();
         } else if (position == 3) {
             return new ShowsFragment();
-        } else {
+        } else if (position == 4) {
             return new GamesFragment();
+        } else {
+            return new MusicFragment();
         }
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -49,10 +52,12 @@ public class CategoryAdapter extends FragmentPagerAdapter {
             return context.getString(R.string.category_books_edu);
         } else if (position == 2) {
             return context.getString(R.string.category_movies);
-        } else if (position == 3) {
+        } else if (position == 3){
             return context.getString(R.string.category_shows);
-        } else {
+        } else if (position == 4) {
             return context.getString(R.string.category_games);
+        } else {
+            return context.getString(R.string.category_music);
         }
     }
 }

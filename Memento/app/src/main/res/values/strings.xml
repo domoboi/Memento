@@ -6,8 +6,22 @@
     <string name="category_movies">Movies</string>
     <string name="category_shows">Shows</string>
     <string name="category_games">Games</string>
+    <string name="category_music">Music</string>
     <string name="search_label">Search</string>
     <string name="search_hint">Search title, genre or year</string>
+    <string name="title_hint">Title *</string>
+    <string name="year_hint">Year</string>
+    <string name="description_hint">Description</string>
+    <string name="indicates_required_fields">* indicates required fields</string>
+    <string name="ok_button">OK</string>
+    <string name="genre_hint">Genre</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="empty_search">Search has found nothing</string>
+    <string name="one_item_search">1 item has been found</string>
+    <string name="number_items_search">items have been found</string>
+    <string name="no_data_available">You haven\'t added any items yet</string>
+    <string name="title_required">Title is required field</string>
 
     <string-array name="categories_array">
         <item>@string/category_books</item>
@@ -15,6 +29,7 @@
         <item>@string/category_movies</item>
         <item>@string/category_shows</item>
         <item>@string/category_games</item>
+        <item>@string/category_music</item>
     </string-array>
 
 </resources>

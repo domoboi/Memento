@@ -9,7 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity android:name=".MainActivity"
-            android:theme="@style/MyAppThemeNoActionBar">
+            android:theme="@style/MyAppThemeNoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,19 +21,22 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity android:name=".CreateItemActivity"
-            android:parentActivityName="com.example.george.memento.MainActivity" >
+            android:parentActivityName="com.example.george.memento.MainActivity"
+            android:screenOrientation="portrait" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.example.george.memento.MainActivity" />
         </activity>
         <activity android:name=".EditItemActivity"
-            android:parentActivityName="com.example.george.memento.MainActivity" >
+            android:parentActivityName="com.example.george.memento.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.george.memento.MainActivity" />
         </activity>
         <activity android:name=".SearchableActivity"
-            android:parentActivityName="com.example.george.memento.MainActivity" >
+            android:parentActivityName="com.example.george.memento.MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
